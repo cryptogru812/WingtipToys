@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Web.UI;
 using WingtipToys;
+using WingtipToys.Logic;
 
 public partial class Account_Register : Page
 {
@@ -14,6 +15,13 @@ public partial class Account_Register : Page
         if (result.Succeeded)
         {
             IdentityHelper.SignIn(manager, user, isPersistent: false);
+
+            using (ShoppingCartActions usersShoppingCart = new ShoppingCartActions())
+            {
+                String cartId = usersShoppingCart.GetCartId();
+                usersShoppingCart.MigrateCart(cartId, user.Id);
+            }
+
             IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
         }
         else
