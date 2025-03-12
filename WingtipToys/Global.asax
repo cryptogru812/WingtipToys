@@ -1,6 +1,7 @@
 ﻿<%@ Application Language="C#" %>
 <%@ Import Namespace="WingtipToys" %>
 <%@ Import Namespace="WingtipToys.Models" %>
+<%@ Import Namespace="WingtipToys.Logic" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="System.Web.Routing" %>
 <%@ Import Namespace="System.Data.Entity" %>
@@ -14,6 +15,10 @@
 
         // Initialize the product database
         Database.SetInitializer(new ProductDatabaseInitializer());
+
+        // Create the custom role and user.
+        RoleActions roleActions = new RoleActions();
+        roleActions.AddUserAndRole();
     }
 
 </script>
