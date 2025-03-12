@@ -19,6 +19,23 @@
         // Create the custom role and user.
         RoleActions roleActions = new RoleActions();
         roleActions.AddUserAndRole();
+
+        // Add Routes.
+        RegisterCustomRoutes(RouteTable.Routes);
+    }
+
+    void RegisterCustomRoutes(RouteCollection routes)
+    {
+        routes.MapPageRoute(
+            "ProductsByCategoryRoute",
+            "Category/{categoryName}",
+            "~/ProductList.aspx"
+        );
+        routes.MapPageRoute(
+            "ProductByNameRoute",
+            "Product/{productName}",
+            "~/ProductDetails.aspx"
+        );
     }
 
 </script>
