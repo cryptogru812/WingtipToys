@@ -16,7 +16,9 @@ public partial class ProductDetails : System.Web.UI.Page
 
     // The id parameter should match the DataKeyNames value set on the control
     // or be decorated with a value provider attribute, e.g. [QueryString]int id
-    public IQueryable<Product> GetProduct([QueryString("productID")] int? productId)
+    public IQueryable<Product> GetProduct(
+        [QueryString("productID")] int? productId,
+        [RouteData] string productName)
     {
         var _db = new WingtipToys.Models.ProductContext();
         IQueryable<Product> query = _db.Products;
@@ -24,6 +26,11 @@ public partial class ProductDetails : System.Web.UI.Page
         if (productId.HasValue && productId > 0)
         {
             query = query.Where(p => p.ProductID == productId);
+        }
+        else if (!String.IsNullOrEmpty(productName))
+        {
+            query = query.Where(p =>
+                String.Compare(p.ProductName, productName) == 0);
         }
         else
         {
