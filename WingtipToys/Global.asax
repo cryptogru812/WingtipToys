@@ -38,4 +38,19 @@
         );
     }
 
+    void Application_Error(object sender, EventArgs e)
+    {
+        Exception exec = Server.GetLastError();
+
+        if (exec is HttpUnhandledException)
+        {
+            if (exec.InnerException != null)
+            {
+                exec = new Exception(exec.InnerException.Message);
+                // Pass the error on the error page.
+                Server.Transfer("ErrorPage.aspx?handler=Application_Error%20-%20Global.asax", true);
+            }
+        }
+    }
+
 </script>
